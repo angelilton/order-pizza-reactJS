@@ -1,58 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import React, { useEffect, useState, useCallback } from 'react'
+import firebase from 'services/firebase'
 import { Button, Grid } from '@material-ui/core'
 import { ReactComponent as MainLogo } from './logo-react-zzaria.svg'
 import styled from 'styled-components'
 
-var firebaseConfig = {
-  apiKey: 'AIzaSyDs66oM0amq4p8APVaXqLxQZB28gn1dAfQ',
-  authDomain: 'orderpizza-9366b.firebaseapp.com',
-  databaseURL: 'https://orderpizza-9366b.firebaseio.com',
-  projectId: 'orderpizza-9366b',
-  storageBucket: 'orderpizza-9366b.appspot.com',
-  messagingSenderId: '592854066413',
-  appId: '1:592854066413:web:d22e00ed0754e63f82d8e4',
-  measurementId: 'G-ST59GV8GWJ'
-}
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
-// firebase.analytics()
-
-const Login = () => {
-  const [user, setUser] = useState({
+function Login() {
+  const [userInfo, setUserInfo] = useState({
     isUserLoggedIn: false,
     user: null
   })
 
+  const { isUserLoggedIn, user } = userInfo
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       console.log('user data:', user)
-      setUser({
+      setUserInfo({
         isUserLoggedIn: !!user,
-        user: user
+        user
       })
     })
   }, [])
 
-  const gitHubAuthentication = () => {
+  const gitHubAuthentication = useCallback(() => {
     const provider = new firebase.auth.GithubAuthProvider()
     firebase.auth().signInWithRedirect(provider)
-  }
+  }, [])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     firebase
       .auth()
       .signOut()
       .then(() => {
-        console.log('deslogou!')
-        setUser({
+        console.log('Deslogou!')
+        setUserInfo({
           isUserLoggedIn: false,
           user: null
         })
       })
-  }
+  }, [])
 
   return (
     <Container>
@@ -62,16 +48,14 @@ const Login = () => {
         </Grid>
 
         <Grid item xs={12} container justify="center">
-          {user.isUserLoggedIn && (
+          {isUserLoggedIn ? (
             <>
-              <pre>{user.user.displayName}</pre>
+              <pre>{user.displayName}</pre>
               <Button variant="contained" onClick={logout}>
                 Sair
               </Button>
             </>
-          )}
-
-          {!user.isUserLoggedIn && (
+          ) : (
             <GitHubBtn onClick={gitHubAuthentication}>
               Entrar com GitHub
             </GitHubBtn>
