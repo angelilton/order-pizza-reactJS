@@ -1,1 +1,1 @@
-export { default } from '../login/main'
+export { default } from './main'
