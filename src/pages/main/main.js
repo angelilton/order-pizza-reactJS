@@ -1,71 +1,26 @@
-import React, { useContext, useState } from 'react'
+import React, { Suspense } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
-import {
-  AppBar,
-  Toolbar as MaterialToolbar,
-  IconButton,
-  Typography,
-  Menu,
-  MenuItem
-} from '@material-ui/core'
-import { AccountCircle } from '@material-ui/icons'
-import { ReactComponent as MainLogo } from 'images/logo-react-zzaria.svg'
-import { AuthContext } from 'contexts/auth'
+import Header from './header'
 
-const Main = () => {
-  const [anchorElement, setAnchorElement] = useState(null)
-  const { userInfo, logout } = useContext(AuthContext)
+const ChoosePizzaSize = React.lazy(() => import('pages/choose-pizza-size'))
 
-  const handleOpenMenu = (e) => {
-    setAnchorElement(e.target)
-  }
-  const handleClose = () => {
-    setAnchorElement(null)
-  }
+const Main = () => (
+  <>
+    <Header />
+    <Wrapper>
+      <Suspense fallback="Loading...">
+        <Switch>
+          <Route path="/" exact component={ChoosePizzaSize} />
+        </Switch>
+      </Suspense>
+    </Wrapper>
+  </>
+)
 
-  const showUserName = userInfo.user.displayName.split(' ')[0]
-
-  const open = Boolean(anchorElement)
-
-  return (
-    <AppBar>
-      <Toolbar>
-        <LogoContainer>
-          <Logo />
-        </LogoContainer>
-        <Typography>hey, {showUserName}</Typography>
-
-        <IconButton color="inherit" onClick={handleOpenMenu}>
-          <AccountCircle />
-        </IconButton>
-
-        <Menu open={open} onClose={handleClose} anchorEl={anchorElement}>
-          <MenuItem onClick={logout}>Logout</MenuItem>
-        </Menu>
-      </Toolbar>
-    </AppBar>
-  )
-}
-
-const Toolbar = styled(MaterialToolbar)`
-  margin: 0 auto;
-  max-width: 960px;
-  width: 100%;
-`
-
-const LogoContainer = styled.div`
-  flex-grow: 1;
-`
-const Logo = styled(MainLogo)`
-  height: 50px;
-  width: 200px;
-
-  & path {
-    fill: #fff;
-  }
-  & line {
-    stroke: #fff;
-  }
+const Wrapper = styled.main`
+  padding: 20px;
+  margin-top: 80px;
 `
 
 export default Main
