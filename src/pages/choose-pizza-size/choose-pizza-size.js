@@ -1,13 +1,19 @@
 import React, { useContext } from 'react'
 import {
   Grid,
-  Paper,
   Typography,
-  Divider as MaterialDivider
+  Divider as MaterialDivider,
+  Card,
+  CardActionArea as MaterialCardActionArea
 } from '@material-ui/core'
 import styled from 'styled-components'
 import { AuthContext } from 'contexts/auth'
 import pizzaSizes from 'contents/pizzas-sizes'
+import { Link } from 'react-router-dom'
+
+import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
+import { HeaderContent, H3, H4 } from 'ui'
+import { singularOrPlural } from 'utils'
 
 const ChoosePizzaSize = () => {
   const { userInfo } = useContext(AuthContext)
@@ -15,27 +21,34 @@ const ChoosePizzaSize = () => {
 
   return (
     <>
-      <Grid container direction="column" alignItems="center">
-        <Title variant="h3">what do you what for today, {showUserName}</Title>
-        <Title variant="h4">Choose your pizza size:</Title>
-      </Grid>
+      <HeaderContent>
+        <H3>what do you what for today, {showUserName}</H3>
+        <H4>Choose your pizza size:</H4>
+      </HeaderContent>
 
       <PizzasGrid>
         {pizzaSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
-            <PaperPizza>
-              <Pizza>
-                <PizzaText>{pizza.size}cm</PizzaText>
-              </Pizza>
+            <Card>
+              <CardActionArea
+                to={{
+                  pathname: CHOOSE_PIZZA_FLAVOURS,
+                  state: pizza
+                }}
+              >
+                <Pizza>
+                  <PizzaText>{pizza.size}cm</PizzaText>
+                </Pizza>
 
-              <Divider />
+                <Divider />
 
-              <Typography variant="h5">{pizza.name}</Typography>
-              <Typography>
-                {`${pizza.slices} fatias, ${pizza.flavours}`}{' '}
-                {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
-              </Typography>
-            </PaperPizza>
+                <Typography variant="h5">{pizza.name}</Typography>
+                <Typography>
+                  {`${pizza.slices} fatias, ${pizza.flavours}`}{' '}
+                  {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
+                </Typography>
+              </CardActionArea>
+            </Card>
           </Grid>
         ))}
       </PizzasGrid>
@@ -43,16 +56,14 @@ const ChoosePizzaSize = () => {
   )
 }
 
-function singularOrPlural(amount, singular, plural) {
-  return amount === 1 ? singular : plural
-}
-
 const Divider = styled(MaterialDivider)`
   margin: 20px 0;
   width: 100%;
 `
 
-const PaperPizza = styled(Paper)`
+const CardActionArea = styled(MaterialCardActionArea).attrs({
+  component: Link
+})`
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -62,6 +73,7 @@ const PaperPizza = styled(Paper)`
 
 const Pizza = styled.div`
   align-items: center;
+  background: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
   display: flex;
@@ -69,6 +81,7 @@ const Pizza = styled.div`
   justify-content: center;
   position: relative;
   width: 200px;
+  z-index: 1;
 
   &::before,
   &::after {
@@ -99,13 +112,6 @@ const PizzaText = styled(Typography).attrs({
   position: relative;
   width: 80px;
   z-index: 1;
-`
-
-const Title = styled(Typography).attrs({
-  gutterBottom: true,
-  align: 'center'
-})`
-  padding-bottom: 5px;
 `
 
 const PizzasGrid = styled(Grid).attrs({
