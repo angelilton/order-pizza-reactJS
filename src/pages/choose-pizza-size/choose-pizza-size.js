@@ -3,16 +3,14 @@ import {
   Grid,
   Typography,
   Divider as MaterialDivider,
-  Card,
-  CardActionArea as MaterialCardActionArea
+  Card
 } from '@material-ui/core'
 import styled from 'styled-components'
 import { AuthContext } from 'contexts/auth'
 import pizzaSizes from 'contents/pizzas-sizes'
-import { Link } from 'react-router-dom'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
-import { HeaderContent, H3, H4 } from 'ui'
+import { HeaderContent, H3, H4, PizzasGrid, CardLink, Divider } from 'ui'
 import { singularOrPlural } from 'utils'
 
 const ChoosePizzaSize = () => {
@@ -30,7 +28,7 @@ const ChoosePizzaSize = () => {
         {pizzaSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
             <Card>
-              <CardActionArea
+              <CardLink
                 to={{
                   pathname: CHOOSE_PIZZA_FLAVOURS,
                   state: pizza
@@ -47,7 +45,7 @@ const ChoosePizzaSize = () => {
                   {`${pizza.slices} fatias, ${pizza.flavours}`}{' '}
                   {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
                 </Typography>
-              </CardActionArea>
+              </CardLink>
             </Card>
           </Grid>
         ))}
@@ -55,21 +53,6 @@ const ChoosePizzaSize = () => {
     </>
   )
 }
-
-const Divider = styled(MaterialDivider)`
-  margin: 20px 0;
-  width: 100%;
-`
-
-const CardActionArea = styled(MaterialCardActionArea).attrs({
-  component: Link
-})`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-width: 250px;
-  padding: 20px 0;
-`
 
 const Pizza = styled.div`
   align-items: center;
@@ -112,13 +95,6 @@ const PizzaText = styled(Typography).attrs({
   position: relative;
   width: 80px;
   z-index: 1;
-`
-
-const PizzasGrid = styled(Grid).attrs({
-  container: true,
-  spacing: 2
-})`
-  padding: 20px;
 `
 
 export default ChoosePizzaSize
