@@ -7,7 +7,7 @@ import { HOME, CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaSize = React.lazy(() => import('pages/choose-pizza-size'))
 const ChoosePizzaFlavours = React.lazy(() =>
-  import('pages/choose-pizza-flavors')
+  import('pages/choose-pizza-flavours')
 )
 
 const Main = () => (
