@@ -1,10 +1,5 @@
 import React, { useContext } from 'react'
-import {
-  Grid,
-  Typography,
-  Divider as MaterialDivider,
-  Card
-} from '@material-ui/core'
+import { Grid, Typography, Card } from '@material-ui/core'
 import styled from 'styled-components'
 import { AuthContext } from 'contexts/auth'
 import pizzaSizes from 'contents/pizzas-sizes'
