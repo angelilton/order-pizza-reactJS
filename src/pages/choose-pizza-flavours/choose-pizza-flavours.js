@@ -12,8 +12,7 @@ import { Card, Grid, Typography } from '@material-ui/core'
 
 const ChoosePizzaFlavours = ({ location }) => {
   const [checkboxes, setCheckboxes] = useState({})
-  console.log('checkboxes:', checkboxes)
-
+  // console.log('checkboxes:', checkboxes)
   if (!location.state) {
     return <Redirect to={HOME} />
   }
@@ -30,6 +29,14 @@ const ChoosePizzaFlavours = ({ location }) => {
   // }
 
   const handleChangeCheckbox = (pizzaFlavoursId) => (e) => {
+    console.log('checkboxes:', checkboxes)
+    if (
+      checkboxesChecked(checkboxes).length === flavours &&
+      e.target.checked === true
+    ) {
+      return
+    }
+
     setCheckboxes({
       ...checkboxes,
       [pizzaFlavoursId]: e.target.checked //!checkboxes[pizza.id] //
@@ -40,7 +47,7 @@ const ChoosePizzaFlavours = ({ location }) => {
     <>
       <HeaderContent>
         <H4>
-          Choose until {flavours} {''}
+          Choose {flavours} {''}
           {singularOrPlural(flavours, 'flavour', 'flavours')}
         </H4>
       </HeaderContent>
@@ -72,6 +79,11 @@ const ChoosePizzaFlavours = ({ location }) => {
 
 ChoosePizzaFlavours.propTypes = {
   location: PropTypes.object.isRequired
+}
+
+function checkboxesChecked(checkboxes) {
+  return Object.values(checkboxes).filter(Boolean)
+  // filter((c) => (c === true))
 }
 
 const Label = styled(CardLink).attrs({
