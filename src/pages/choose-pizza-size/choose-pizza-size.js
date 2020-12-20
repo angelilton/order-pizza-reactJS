@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Grid, Typography, Card } from '@material-ui/core'
 import styled from 'styled-components'
-import { AuthContext } from 'contexts/auth'
+import { useAuth } from 'hooks'
 import pizzaSizes from 'contents/pizzas-sizes'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
@@ -17,7 +17,7 @@ import {
 import { singularOrPlural } from 'utils'
 
 const ChoosePizzaSize = () => {
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo } = useAuth()
   const showUserName = userInfo.user.displayName.split(' ')[0]
 
   return (

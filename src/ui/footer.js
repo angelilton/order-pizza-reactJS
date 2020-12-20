@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Grid, Typography } from '@material-ui/core'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { singularOrPlural } from 'utils'
-import { AuthContext } from 'contexts/auth'
+import { useAuth } from 'hooks'
 
 const Footer = ({ location }) => {
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo } = useAuth()
 
   const { flavours, name, slices } = location.state
   let showUserName = userInfo.user.displayName.split(' ')[0]

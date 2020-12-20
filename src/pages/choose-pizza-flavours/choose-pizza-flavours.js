@@ -42,7 +42,7 @@ const ChoosePizzaFlavours = ({ location }) => {
       }
     })
   }
-  console.log('checkboxes', checkboxes)
+
   return (
     <>
       <Wrapper>
