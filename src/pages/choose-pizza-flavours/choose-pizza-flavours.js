@@ -2,34 +2,29 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
-import { CardLink, H4, HeaderContent, PizzasGrid, Divider } from 'ui'
-import { singularOrPlural } from 'utils'
+import { CardLink, H4, HeaderContent, PizzasGrid, Divider, Wrapper } from 'ui'
+import { singularOrPlural, toEuro } from 'utils'
 import { Redirect } from 'react-router-dom'
 import { HOME } from 'routes'
 
 import pizzasFlavours from 'contents/pizza-flavours'
-import { Card, Grid, Typography } from '@material-ui/core'
+import {
+  Card as MaterialCard,
+  Container,
+  Grid,
+  Typography
+} from '@material-ui/core'
 
 const ChoosePizzaFlavours = ({ location }) => {
-  const [checkboxes, setCheckboxes] = useState({})
-  // console.log('checkboxes:', checkboxes)
+  const [checkboxes, setCheckboxes] = useState(() => ({}))
+
   if (!location.state) {
     return <Redirect to={HOME} />
   }
 
   const { flavours, id: pizzaSizeID } = location.state
 
-  // const handleChangeCheckbox = (pizzaFlavoursId) => (e) => {
-  //   setCheckboxes((check) => {
-  //     return {
-  //       ...check,
-  //       [pizzaFlavoursId]: e.target.checked
-  //     }
-  //   })
-  // }
-
-  const handleChangeCheckbox = (pizzaFlavoursId) => (e) => {
-    console.log('checkboxes:', checkboxes)
+  const handleChangeCheckbox = (pizzaId) => (e) => {
     if (
       checkboxesChecked(checkboxes).length === flavours &&
       e.target.checked === true
@@ -37,42 +32,58 @@ const ChoosePizzaFlavours = ({ location }) => {
       return
     }
 
-    setCheckboxes({
-      ...checkboxes,
-      [pizzaFlavoursId]: e.target.checked //!checkboxes[pizza.id] //
+    setCheckboxes((checkboxes) => {
+      return {
+        ...checkboxes,
+        [pizzaId]: e.target.checked
+      }
     })
   }
-
+  console.log('checkboxes', checkboxes)
   return (
     <>
-      <HeaderContent>
-        <H4>
-          Choose {flavours} {''}
-          {singularOrPlural(flavours, 'flavour', 'flavours')}
-        </H4>
-      </HeaderContent>
+      <Wrapper>
+        <HeaderContent>
+          <H4>
+            Choose {flavours} {''}
+            {singularOrPlural(flavours, 'flavour', 'flavours')}
+          </H4>
+        </HeaderContent>
 
-      <PizzasGrid>
-        {pizzasFlavours.map((pizza) => (
-          <Grid item key={pizza.id} xs>
-            <Card>
-              <Label>
-                <Img src={pizza.image} alt={pizza.name} />
+        <PizzasGrid>
+          {pizzasFlavours.map((pizza) => (
+            <Grid item key={pizza.id} xs>
+              <Card checked={!!checkboxes[pizza.id]}>
+                <Label>
+                  <Img src={pizza.image} alt={pizza.name} />
 
-                <Divider />
+                  <Divider />
 
-                <Typography>{pizza.name}</Typography>
-                <Typography variant="h5">{pizza.value[pizzaSizeID]}</Typography>
-                <input
-                  type="checkbox"
-                  checked={!!checkboxes[pizza.id]}
-                  onChange={handleChangeCheckbox(pizza.id)}
-                />
-              </Label>
-            </Card>
+                  <Typography>{pizza.name}</Typography>
+                  <Typography variant="h5">
+                    {toEuro(pizza.value[pizzaSizeID])}
+                  </Typography>
+                  <input
+                    style={{ display: 'none' }}
+                    type="checkbox"
+                    checked={!!checkboxes[pizza.id]}
+                    onChange={handleChangeCheckbox(pizza.id)}
+                  />
+                </Label>
+              </Card>
+            </Grid>
+          ))}
+        </PizzasGrid>
+      </Wrapper>
+
+      <Footer>
+        <Container>
+          <Grid container>
+            <OrderWrapper>pedido</OrderWrapper>
+            <Grid item>Botoes</Grid>
           </Grid>
-        ))}
-      </PizzasGrid>
+        </Container>
+      </Footer>
     </>
   )
 }
@@ -86,12 +97,30 @@ function checkboxesChecked(checkboxes) {
   // filter((c) => (c === true))
 }
 
+const Card = styled(MaterialCard)`
+  border: 2px solid solid transparent;
+  background: ${({ theme, checked }) =>
+    checked ? theme.palette.success.light : ''};
+`
+
 const Label = styled(CardLink).attrs({
   component: 'label'
 })``
 
 const Img = styled.img`
   width: 200px;
+`
+
+const Footer = styled.footer`
+  box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey[400]};
+  padding: ${({ theme }) => theme.spacing(3)}px;
+  width: 100%;
+`
+
+const OrderWrapper = styled(Grid).attrs({
+  item: true
+})`
+  flex-grow: 1;
 `
 
 export default ChoosePizzaFlavours
