@@ -11,6 +11,8 @@ import {
 import { AccountCircle } from '@material-ui/icons'
 import { ReactComponent as MainLogo } from 'images/logo-react-zzaria.svg'
 import { useAuth } from 'hooks'
+import { Link } from 'react-router-dom'
+import { HOME } from 'routes'
 
 const Header = () => {
   const [anchorElement, setAnchorElement] = useState(null)
@@ -31,7 +33,9 @@ const Header = () => {
     <AppBar>
       <Toolbar>
         <LogoContainer>
-          <Logo />
+          <LinkLogo to={HOME}>
+            <Logo />
+          </LinkLogo>
         </LogoContainer>
         <Typography>hey, {showUserName}</Typography>
 
@@ -50,6 +54,9 @@ const Header = () => {
 const Toolbar = styled(MaterialToolbar)`
   margin: 0 auto;
   width: 100%;
+`
+const LinkLogo = styled(Link)`
+  display: inline-block;
 `
 
 const LogoContainer = styled.div`
