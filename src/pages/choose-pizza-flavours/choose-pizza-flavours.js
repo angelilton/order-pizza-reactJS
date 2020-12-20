@@ -2,18 +2,21 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
-import { CardLink, H4, HeaderContent, PizzasGrid, Divider, Wrapper } from 'ui'
+import {
+  CardLink,
+  H4,
+  HeaderContent,
+  PizzasGrid,
+  Divider,
+  Wrapper,
+  Footer
+} from 'ui'
 import { singularOrPlural, toEuro } from 'utils'
 import { Redirect } from 'react-router-dom'
 import { HOME } from 'routes'
 
 import pizzasFlavours from 'contents/pizza-flavours'
-import {
-  Card as MaterialCard,
-  Container,
-  Grid,
-  Typography
-} from '@material-ui/core'
+import { Card as MaterialCard, Grid, Typography } from '@material-ui/core'
 
 const ChoosePizzaFlavours = ({ location }) => {
   const [checkboxes, setCheckboxes] = useState(() => ({}))
@@ -76,14 +79,7 @@ const ChoosePizzaFlavours = ({ location }) => {
         </PizzasGrid>
       </Wrapper>
 
-      <Footer>
-        <Container>
-          <Grid container>
-            <OrderWrapper>pedido</OrderWrapper>
-            <Grid item>Botoes</Grid>
-          </Grid>
-        </Container>
-      </Footer>
+      <Footer />
     </>
   )
 }
@@ -109,18 +105,6 @@ const Label = styled(CardLink).attrs({
 
 const Img = styled.img`
   width: 200px;
-`
-
-const Footer = styled.footer`
-  box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey[400]};
-  padding: ${({ theme }) => theme.spacing(3)}px;
-  width: 100%;
-`
-
-const OrderWrapper = styled(Grid).attrs({
-  item: true
-})`
-  flex-grow: 1;
 `
 
 export default ChoosePizzaFlavours
