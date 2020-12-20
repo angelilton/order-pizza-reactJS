@@ -5,7 +5,15 @@ import { AuthContext } from 'contexts/auth'
 import pizzaSizes from 'contents/pizzas-sizes'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
-import { HeaderContent, H3, H4, PizzasGrid, CardLink, Divider } from 'ui'
+import {
+  HeaderContent,
+  H3,
+  H4,
+  PizzasGrid,
+  CardLink,
+  Divider,
+  Wrapper
+} from 'ui'
 import { singularOrPlural } from 'utils'
 
 const ChoosePizzaSize = () => {
@@ -13,7 +21,7 @@ const ChoosePizzaSize = () => {
   const showUserName = userInfo.user.displayName.split(' ')[0]
 
   return (
-    <>
+    <Wrapper>
       <HeaderContent>
         <H3>what do you what for today, {showUserName}</H3>
         <H4>Choose your pizza size:</H4>
@@ -45,7 +53,7 @@ const ChoosePizzaSize = () => {
           </Grid>
         ))}
       </PizzasGrid>
-    </>
+    </Wrapper>
   )
 }
 
