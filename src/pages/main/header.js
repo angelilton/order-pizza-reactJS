@@ -49,7 +49,6 @@ const Header = () => {
 
 const Toolbar = styled(MaterialToolbar)`
   margin: 0 auto;
-  max-width: 960px;
   width: 100%;
 `
 
