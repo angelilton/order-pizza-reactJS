@@ -13,7 +13,7 @@ import {
 } from 'ui'
 import { singularOrPlural, toEuro } from 'utils'
 import { Redirect } from 'react-router-dom'
-import { HOME } from 'routes'
+import { CHOOSE_QUANTITY, HOME } from 'routes'
 
 import pizzasFlavours from 'contents/pizza-flavours'
 import { Card as MaterialCard, Grid, Typography } from '@material-ui/core'
@@ -79,7 +79,12 @@ const ChoosePizzaFlavours = ({ location }) => {
         </PizzasGrid>
       </Wrapper>
 
-      <Footer />
+      <Footer
+        buttons={[
+          { to: HOME, children: 'Switch the size' },
+          { to: CHOOSE_QUANTITY, children: 'How many Pizza?', color: 'primary' }
+        ]}
+      />
     </>
   )
 }

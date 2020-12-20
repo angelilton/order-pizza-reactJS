@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Grid, Typography } from '@material-ui/core'
+import {
+  Container,
+  Grid,
+  Typography,
+  Button as MaterialButton
+} from '@material-ui/core'
 import styled from 'styled-components'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { singularOrPlural } from 'utils'
 import { useAuth } from 'hooks'
 
-const Footer = ({ location }) => {
+const Footer = ({ buttons, location }) => {
   const { userInfo } = useAuth()
 
   const { flavours, name, slices } = location.state
@@ -26,7 +31,11 @@ const Footer = ({ location }) => {
               {flavours} {singularOrPlural(flavours, 'sabor', 'sabores')})
             </Typography>
           </OrderWrapper>
-          <Grid item>Botoes..</Grid>
+          <Grid item>
+            {buttons.map((btn) => (
+              <Button key={btn.to} {...btn} />
+            ))}
+          </Grid>
         </Grid>
       </Container>
     </FooterWrapper>
@@ -34,8 +43,16 @@ const Footer = ({ location }) => {
 }
 
 Footer.propTypes = {
+  buttons: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired
 }
+
+const Button = styled(MaterialButton).attrs({
+  component: Link,
+  variant: 'contained'
+})`
+  margin-left: ${({ theme }) => theme.spacing(2)}px;
+`
 
 const FooterWrapper = styled.footer`
   box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey[400]};
