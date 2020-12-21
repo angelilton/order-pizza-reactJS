@@ -1,6 +1,6 @@
 export default [
   {
-    id: 0,
+    id: '0qwe',
     name: 'Pequena',
     size: 28,
     slices: 2,
@@ -8,7 +8,7 @@ export default [
   },
 
   {
-    id: 1,
+    id: '1opb',
     name: 'Média',
     size: 30,
     slices: 6,
@@ -16,7 +16,7 @@ export default [
   },
 
   {
-    id: 2,
+    id: '2vnc',
     name: 'Grande',
     size: 32,
     slices: 8,
