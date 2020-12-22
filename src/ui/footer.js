@@ -11,13 +11,18 @@ import { Link, withRouter } from 'react-router-dom'
 import { singularOrPlural } from 'utils'
 import { useAuth } from 'hooks'
 
-const Footer = ({ buttons, location }) => {
+const Footer = ({ buttons, history, location }) => {
   const { userInfo } = useAuth()
 
   const { pizzaSize, pizzaFlavours } = location.state
   const { flavours, name, slices } = pizzaSize
 
   let showUserName = userInfo.user.displayName.split(' ')[0]
+
+  const handleBtnGoBack = (e) => {
+    e.preventDefault()
+    history.goBack()
+  }
 
   console.table(pizzaFlavours)
   return (
@@ -44,11 +49,11 @@ const Footer = ({ buttons, location }) => {
               </Typography>
             )}
           </OrderWrapper>
-          <Grid item>
-            {buttons.map((btn) => (
-              <Button key={btn.to} {...btn} />
-            ))}
-          </Grid>
+
+          <ButtonWrapper>
+            <Button component="a" {...buttons.back} onClick={handleBtnGoBack} />
+            <Button component={Link} color="primary" {...buttons.action} />
+          </ButtonWrapper>
         </Grid>
       </Container>
     </FooterWrapper>
@@ -56,14 +61,22 @@ const Footer = ({ buttons, location }) => {
 }
 
 Footer.propTypes = {
-  buttons: PropTypes.array.isRequired,
+  buttons: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired
 }
 
+const ButtonWrapper = styled(Grid).attrs({
+  item: true
+})`
+  display: flex;
+  align-items: center;
+`
+
 const Button = styled(MaterialButton).attrs({
-  component: Link,
   variant: 'contained'
 })`
+  cursor: pointer;
   margin-left: ${({ theme }) => theme.spacing(2)}px;
 `
 

@@ -80,9 +80,11 @@ const ChoosePizzaFlavours = ({ location }) => {
       </Wrapper>
 
       <Footer
-        buttons={[
-          { to: HOME, children: 'Switch the size' },
-          {
+        buttons={{
+          back: {
+            children: 'Switch the size'
+          },
+          action: {
             to: {
               pathname: CHOOSE_QUANTITY,
               state: {
@@ -91,9 +93,9 @@ const ChoosePizzaFlavours = ({ location }) => {
               }
             },
             children: 'How many Pizza?',
-            color: 'primary'
+            disabled: !checkboxesChecked(checkboxes).length
           }
-        ]}
+        }}
       />
     </>
   )
