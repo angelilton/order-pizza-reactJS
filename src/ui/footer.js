@@ -14,9 +14,12 @@ import { useAuth } from 'hooks'
 const Footer = ({ buttons, location }) => {
   const { userInfo } = useAuth()
 
-  const { flavours, name, slices } = location.state
+  const { pizzaSize, pizzaFlavours } = location.state
+  const { flavours, name, slices } = pizzaSize
+
   let showUserName = userInfo.user.displayName.split(' ')[0]
 
+  console.table(pizzaFlavours)
   return (
     <FooterWrapper>
       <Container>
@@ -27,9 +30,19 @@ const Footer = ({ buttons, location }) => {
             </Typography>
             <Typography>
               Pizza <b>{name.toUpperCase()}</b>
-              {' - '}({slices} {singularOrPlural(slices, 'fatia', 'fatias')},{' '}
-              {flavours} {singularOrPlural(flavours, 'sabor', 'sabores')})
+              {` - ( ${slices} slices ${flavours} `}
+              {singularOrPlural(flavours, 'flavour', 'flavours')})
             </Typography>
+            {pizzaFlavours && (
+              <Typography>
+                {singularOrPlural(
+                  pizzaFlavours.length,
+                  'Flavour: ',
+                  'Flavours: '
+                )}{' '}
+                <b>{pizzaFlavours.map(({ name }) => name).join(', ')}</b>
+              </Typography>
+            )}
           </OrderWrapper>
           <Grid item>
             {buttons.map((btn) => (
