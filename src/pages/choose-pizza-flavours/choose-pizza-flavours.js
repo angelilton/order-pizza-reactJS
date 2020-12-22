@@ -25,7 +25,7 @@ const ChoosePizzaFlavours = ({ location }) => {
     return <Redirect to={HOME} />
   }
 
-  const { flavours, id: pizzaSizeID } = location.state
+  const { flavours, id: pizzaSizeId } = location.state.pizzaSize
 
   const handleChangeCheckbox = (pizzaId) => (e) => {
     if (
@@ -42,7 +42,7 @@ const ChoosePizzaFlavours = ({ location }) => {
       }
     })
   }
-
+  console.log('checkBoxes', checkboxes)
   return (
     <>
       <Wrapper>
@@ -64,7 +64,7 @@ const ChoosePizzaFlavours = ({ location }) => {
 
                   <Typography>{pizza.name}</Typography>
                   <Typography variant="h5">
-                    {toEuro(pizza.value[pizzaSizeID])}
+                    {toEuro(pizza.value[pizzaSizeId])}
                   </Typography>
                   <input
                     style={{ display: 'none' }}
@@ -82,7 +82,17 @@ const ChoosePizzaFlavours = ({ location }) => {
       <Footer
         buttons={[
           { to: HOME, children: 'Switch the size' },
-          { to: CHOOSE_QUANTITY, children: 'How many Pizza?', color: 'primary' }
+          {
+            to: {
+              pathname: CHOOSE_QUANTITY,
+              state: {
+                ...location.state,
+                pizzaFlavours: getFlavoursNameAndId(checkboxes)
+              }
+            },
+            children: 'How many Pizza?',
+            color: 'primary'
+          }
         ]}
       />
     </>
@@ -96,6 +106,15 @@ ChoosePizzaFlavours.propTypes = {
 function checkboxesChecked(checkboxes) {
   return Object.values(checkboxes).filter(Boolean)
   // filter((c) => (c === true))
+}
+
+function getFlavoursNameAndId(objChecked) {
+  return Object.entries(objChecked)
+    .filter(([id, value]) => Boolean(value))
+    .map(([id]) => ({
+      id,
+      name: pizzasFlavours.find((flavour) => flavour.id === id).name
+    }))
 }
 
 const Card = styled(MaterialCard)`

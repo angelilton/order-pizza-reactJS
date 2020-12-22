@@ -34,7 +34,9 @@ const ChoosePizzaSize = () => {
               <CardLink
                 to={{
                   pathname: CHOOSE_PIZZA_FLAVOURS,
-                  state: pizza
+                  state: {
+                    pizzaSize: pizza
+                  }
                 }}
               >
                 <Pizza>
@@ -45,8 +47,8 @@ const ChoosePizzaSize = () => {
 
                 <Typography variant="h5">{pizza.name}</Typography>
                 <Typography>
-                  {`${pizza.slices} fatias, ${pizza.flavours}`}{' '}
-                  {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
+                  {`${pizza.slices} slices, ${pizza.flavours}`}{' '}
+                  {singularOrPlural(pizza.flavours, 'flavour', 'flavours')}
                 </Typography>
               </CardLink>
             </Card>
