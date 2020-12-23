@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader/root'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { CssBaseline, createMuiTheme } from '@material-ui/core'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
-import AuthProvider from 'contexts/auth'
+import { AuthProvider, OrderProvider } from 'contexts'
 import App from './app'
 
 const theme = createMuiTheme({
@@ -18,11 +18,13 @@ function Root() {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
-        <CssBaseline />
-        <GlobalStyle />
-        <Router>
-          <Route component={App} />
-        </Router>
+        <OrderProvider>
+          <CssBaseline />
+          <GlobalStyle />
+          <Router>
+            <Route component={App} />
+          </Router>
+        </OrderProvider>
       </AuthProvider>
     </ThemeProvider>
   )
