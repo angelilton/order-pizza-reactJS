@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
@@ -19,7 +19,7 @@ import pizzasFlavours from 'contents/pizza-flavours'
 import { Card as MaterialCard, Grid, Typography } from '@material-ui/core'
 
 const ChoosePizzaFlavours = ({ location }) => {
-  const [checkboxes, setCheckboxes] = useState(() => ({}))
+  const [checkboxes, setCheckboxes] = useState({})
 
   if (!location.state) {
     return <Redirect to={HOME} />
@@ -27,22 +27,20 @@ const ChoosePizzaFlavours = ({ location }) => {
 
   const { flavours, id: pizzaSizeId } = location.state.pizzaSize
 
-  const handleChangeCheckbox = (pizzaId) => (e) => {
-    if (
-      checkboxesChecked(checkboxes).length === flavours &&
-      e.target.checked === true
-    ) {
+  const handleChangeCheckbox = (e) => {
+    const { checked, value } = e.target
+
+    if (checkboxesChecked(checkboxes).length === flavours && checked === true) {
       return
     }
 
-    setCheckboxes((checkboxes) => {
-      return {
-        ...checkboxes,
-        [pizzaId]: e.target.checked
-      }
+    setCheckboxes({
+      ...checkboxes,
+      [value]: checked
     })
   }
   console.log('checkBoxes', checkboxes)
+
   return (
     <>
       <Wrapper>
@@ -69,8 +67,9 @@ const ChoosePizzaFlavours = ({ location }) => {
                   <input
                     style={{ display: 'none' }}
                     type="checkbox"
+                    value={pizza.id}
                     checked={!!checkboxes[pizza.id]}
-                    onChange={handleChangeCheckbox(pizza.id)}
+                    onChange={handleChangeCheckbox}
                   />
                 </Label>
               </Card>
