@@ -1,23 +1,35 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Input as MaterialInput } from '@material-ui/core'
+import { Button, Input as MaterialInput } from '@material-ui/core'
 import { H4, HeaderContent, Wrapper, Footer } from 'ui'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { HOME, CHECKOUT } from 'routes'
+import { useOrder } from 'hooks'
 
 const ChooseQuantity = ({ location }) => {
   const [quantity, setQuantity] = useState(1)
+  const { addPizzaToOrder } = useOrder()
 
   if (!location.state) {
     return <Redirect to={HOME} />
   }
+
+  const { pizzaSize, pizzaFlavours } = location.state
 
   function handleInput(e) {
     const { value } = e.target
     if (value >= 1) {
       setQuantity(value)
     }
+  }
+
+  function addPizza() {
+    addPizzaToOrder({
+      size: pizzaSize.id,
+      flavours: pizzaFlavours.map((flavour) => flavour.id),
+      quantity: quantity
+    })
   }
 
   return (
@@ -29,6 +41,9 @@ const ChooseQuantity = ({ location }) => {
 
         <MainContent>
           <Input value={quantity} onChange={handleInput} autoFocus />
+          <ButtonAddPizza to={HOME} onClick={addPizza}>
+            Add more pizza
+          </ButtonAddPizza>
         </MainContent>
       </Wrapper>
 
@@ -39,6 +54,7 @@ const ChooseQuantity = ({ location }) => {
           },
           action: {
             to: CHECKOUT,
+            onClick: addPizza,
             children: 'checkout'
           }
         }}
@@ -50,6 +66,16 @@ const ChooseQuantity = ({ location }) => {
 ChooseQuantity.propTypes = {
   location: PropTypes.object.isRequired
 }
+
+const ButtonAddPizza = styled(Button).attrs({
+  color: 'secondary',
+  component: Link,
+  variant: 'contained'
+})`
+  height: 70px;
+  text-align: center;
+  margin-top: ${({ theme }) => theme.spacing(3)}px;
+`
 
 const Input = styled(MaterialInput).attrs({
   type: 'number'
@@ -64,7 +90,8 @@ const Input = styled(MaterialInput).attrs({
 
 const MainContent = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-top: ${({ theme }) => theme.spacing(2)}px;
 `
 
