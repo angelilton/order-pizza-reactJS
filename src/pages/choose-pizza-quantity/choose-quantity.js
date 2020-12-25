@@ -15,8 +15,6 @@ const ChooseQuantity = ({ location }) => {
     return <Redirect to={HOME} />
   }
 
-  const { pizzaSize, pizzaFlavours } = location.state
-
   function handleInput(e) {
     const { value } = e.target
     if (value >= 1) {
@@ -26,8 +24,7 @@ const ChooseQuantity = ({ location }) => {
 
   function addPizza() {
     addPizzaToOrder({
-      size: pizzaSize.id,
-      flavours: pizzaFlavours.map((flavour) => flavour.id),
+      ...location.state,
       quantity: quantity
     })
   }
