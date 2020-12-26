@@ -24,7 +24,6 @@ const Footer = ({ buttons, history, location }) => {
     history.goBack()
   }
 
-  console.table(pizzaFlavours)
   return (
     <FooterWrapper>
       <Container>
