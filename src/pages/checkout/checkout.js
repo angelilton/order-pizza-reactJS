@@ -3,23 +3,16 @@ import PropTypes from 'prop-types'
 import {
   Button,
   Grid,
-  List,
-  ListItem,
   Paper,
-  TextField as MaterialTextField,
-  Typography
+  TextField as MaterialTextField
 } from '@material-ui/core'
 import { FooterCheckout, Title as UiTitle, Wrapper } from 'ui'
 import styled, { css } from 'styled-components'
-import { useOrder } from 'hooks'
-import { singularOrPlural } from 'utils'
 import { Link } from 'react-router-dom'
 import { CHECKOUT_CONFIRMATION } from 'routes'
+import OrderInfo from './order-info'
 
 const Checkout = () => {
-  const { order } = useOrder()
-  console.log('order:', order)
-
   return (
     <>
       <Wrapper>
@@ -47,30 +40,7 @@ const Checkout = () => {
           <Grid container direction="column" item xs={12} md={6}>
             <Title>Your order:</Title>
             <PaperWrapper>
-              <List>
-                {order.pizzas.map((pizza, index) => {
-                  const { pizzaFlavours, pizzaSize, quantity } = pizza
-
-                  return (
-                    <ListItem key={index}>
-                      <Typography>
-                        {quantity}
-                        {' - '} {singularOrPlural(quantity, 'pizza', 'pizzas')}{' '}
-                        <b>{pizzaSize.name.toUpperCase()}</b>
-                        <br />
-                        {singularOrPlural(
-                          pizzaFlavours.length,
-                          'Flavour: ',
-                          'Flavours: '
-                        )}{' '}
-                        <b>
-                          {pizzaFlavours.map(({ name }) => name).join(', ')}
-                        </b>
-                      </Typography>
-                    </ListItem>
-                  )
-                })}
-              </List>
+              <OrderInfo />
             </PaperWrapper>
           </Grid>
         </Grid>
