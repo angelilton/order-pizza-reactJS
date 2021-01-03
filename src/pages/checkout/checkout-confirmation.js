@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import OrderInfo from './order-info'
 import { Link } from 'react-router-dom'
-import { HOME } from 'routes'
+import { CHECKOUT_SUCCESS } from 'routes'
 
 const CheckoutConfirmation = () => {
   const { userInfo } = useAuth()
@@ -44,7 +44,13 @@ const CheckoutConfirmation = () => {
         </Container>
       </Wrapper>
       <FooterCheckout justifyContent="center">
-        <Button variant="contained" color="primary" component={Link} to={HOME}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          component={Link}
+          to={CHECKOUT_SUCCESS}
+        >
           confirm
         </Button>
       </FooterCheckout>
