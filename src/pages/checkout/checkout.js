@@ -40,7 +40,7 @@ const Checkout = () => {
           <Grid container direction="column" item xs={12} md={6}>
             <Title>Your order:</Title>
             <PaperWrapper>
-              <OrderInfo />
+              <OrderInfo showOptions />
             </PaperWrapper>
           </Grid>
         </Grid>
