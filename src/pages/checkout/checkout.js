@@ -1,11 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {
-  Button,
-  Grid,
-  Paper,
-  TextField as MaterialTextField
-} from '@material-ui/core'
+
+import { Button, Grid, Paper } from '@material-ui/core'
+import TextField from './text-field'
+import FormAddress from './form-address'
 import { FooterCheckout, Title as UiTitle, Wrapper } from 'ui'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -20,15 +17,7 @@ const Checkout = () => {
           <Grid item xs={12} md={6}>
             <Title>what is your address for delivery?</Title>
             <PaperWrapper>
-              <Grid container spacing={2}>
-                <TextField label="CEP" xs={4} autoFocus />
-                <Grid item xs={6} />
-                <TextField label="Rua" xs={9} />
-                <TextField label="Número" xs={3} />
-                <TextField label="Complemento" xs={12} />
-                <TextField label="Cidade" xs={8} />
-                <TextField label="Estado" xs={4} />
-              </Grid>
+              <FormAddress />
             </PaperWrapper>
 
             <Title>what is your phone number?</Title>
@@ -58,24 +47,6 @@ const Checkout = () => {
       </FooterCheckout>
     </>
   )
-}
-
-function TextField({ xs, autoFocus, ...props }) {
-  return (
-    <Grid item xs={xs}>
-      <MaterialTextField
-        fullWidth
-        variant="outlined"
-        inputProps={{ autoFocus }}
-        {...props}
-      />
-    </Grid>
-  )
-}
-
-TextField.propTypes = {
-  autoFocus: PropTypes.bool,
-  xs: PropTypes.number
 }
 
 const Title = styled(UiTitle).attrs({
