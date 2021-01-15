@@ -1,13 +1,18 @@
 import React, { useState, useRef, useEffect, useReducer } from 'react'
+import PropTypes from 'prop-types'
 import { Grid, CircularProgress } from '@material-ui/core'
 import TextField from './text-field'
 
-function FormAddress() {
+function FormAddress({ onUpdate = () => {} }) {
   const [cep, setCep] = useState('')
   const [addressState, dispatch] = useReducer(reducer, initialState)
   const [loading, setLoading] = useState(false)
   const numberField = useRef()
   const addressField = useRef()
+
+  useEffect(() => {
+    onUpdate(addressState)
+  }, [addressState, onUpdate])
 
   useEffect(() => {
     async function fetchAddress() {
@@ -135,6 +140,10 @@ function FormAddress() {
       ))}
     </Grid>
   )
+}
+
+FormAddress.propTypes = {
+  onUpdate: PropTypes.func
 }
 
 const reducer = (state, action) => {

@@ -6,6 +6,8 @@ export const OrderContext = createContext()
 
 const Order = ({ children }) => {
   const [pizzas, setPizzas] = useState([])
+  const [phone, addPhone] = useState('')
+  const [address, addAddress] = useState({})
 
   function addPizzaToOrder(pizza) {
     setPizzas((pizzas) => pizzas.concat(newPizza(pizza)))
@@ -27,10 +29,14 @@ const Order = ({ children }) => {
     <OrderContext.Provider
       value={{
         order: {
-          pizzas
+          pizzas,
+          address,
+          phone
         },
         addPizzaToOrder,
-        removePizzaFromOrder
+        removePizzaFromOrder,
+        addAddress,
+        addPhone
       }}
     >
       {children}

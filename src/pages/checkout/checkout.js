@@ -1,15 +1,17 @@
 import React from 'react'
-
 import { Button, Grid, Paper } from '@material-ui/core'
-import TextField from './text-field'
 import FormAddress from './form-address'
 import { FooterCheckout, Title as UiTitle, Wrapper } from 'ui'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { CHECKOUT_CONFIRMATION } from 'routes'
 import OrderInfo from './order-info'
+import PhoneField from './phone-field'
+import { useOrder } from 'hooks'
 
 const Checkout = () => {
+  const { addAddress, addPhone } = useOrder()
+
   return (
     <>
       <Wrapper>
@@ -17,12 +19,12 @@ const Checkout = () => {
           <Grid item xs={12} md={6}>
             <Title>what is your address for delivery?</Title>
             <PaperWrapper>
-              <FormAddress />
+              <FormAddress onUpdate={addAddress} />
             </PaperWrapper>
 
             <Title>what is your phone number?</Title>
             <PaperWrapper>
-              <TextField label="Telefone" xs={6} />
+              <PhoneField onUpdate={addPhone} />
             </PaperWrapper>
           </Grid>
 
