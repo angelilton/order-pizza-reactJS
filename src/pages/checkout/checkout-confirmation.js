@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuth } from 'hooks'
+import { useAuth, useOrder } from 'hooks'
 import { FooterCheckout, H4, H6, Wrapper } from 'ui'
 
 import styled from 'styled-components'
@@ -16,6 +16,7 @@ import { CHECKOUT_SUCCESS } from 'routes'
 
 const CheckoutConfirmation = () => {
   const { userInfo } = useAuth()
+  const { order } = useOrder()
   const showUserName = userInfo.user.displayName.split(' ')[0]
 
   return (
@@ -28,18 +29,27 @@ const CheckoutConfirmation = () => {
 
         <Container maxWidth="sm">
           <PaperWrapper>
-            <H6>order</H6>
+            <H6>order:</H6>
             <OrderInfo />
 
             <Divider />
 
-            <H6>address</H6>
-            <Typography>12 james street - Cork</Typography>
+            <H6>address:</H6>
+            <Typography>
+              CEP: {order.address.code}
+              <br />
+              ENDEREÇO: {order.address.address} {' Nº'} {order.address.number}
+              <br />
+              {order.address.district} - {order.address.city}/
+              {order.address.state}
+              <br />
+              COMPLEMENTO: {order.address.complement}
+            </Typography>
 
             <Divider />
 
-            <H6>phone</H6>
-            <Typography>(44) 98888-7777</Typography>
+            <H6>phone:</H6>
+            <Typography>{order.phone}</Typography>
           </PaperWrapper>
         </Container>
       </Wrapper>
