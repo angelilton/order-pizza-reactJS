@@ -3,17 +3,18 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDs66oM0amq4p8APVaXqLxQZB28gn1dAfQ',
-  authDomain: 'orderpizza-9366b.firebaseapp.com',
-  databaseURL: 'https://orderpizza-9366b.firebaseio.com',
-  projectId: 'orderpizza-9366b',
-  storageBucket: 'orderpizza-9366b.appspot.com',
-  messagingSenderId: '592854066413',
-  appId: '1:592854066413:web:d22e00ed0754e63f82d8e4',
-  measurementId: 'G-ST59GV8GWJ'
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
 }
+
+console.log(firebaseConfig)
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
+
 export const db = firebase.firestore()
 export default firebase
