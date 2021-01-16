@@ -17,8 +17,8 @@ function App({ location }) {
   const { isUserLoggedIn } = userInfo
 
   useEffect(() => {
+    //busca os dados do usuario no firebase
     firebase.auth().onAuthStateChanged((user) => {
-      console.log('user data:', user)
       setUserInfo({
         isUserLoggedIn: !!user,
         user

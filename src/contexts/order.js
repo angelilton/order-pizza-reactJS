@@ -21,7 +21,6 @@ const Order = ({ children }) => {
   }
 
   function removePizzaFromOrder(id) {
-    console.log('removePizzaFromOrder:', id)
     setPizzas((pizzas) => pizzas.filter((p) => p.id !== id))
   }
 

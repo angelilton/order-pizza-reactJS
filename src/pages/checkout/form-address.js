@@ -20,14 +20,11 @@ function FormAddress({ onUpdate = () => {} }) {
         return
       }
 
-      console.log('buscar cep:', cep)
-
       setLoading(true)
       const data = await fetch(`https://ws.apicep.com/cep/${cep}.json`)
       setLoading(false)
 
       //validate if data get error 500
-      console.log(data.ok)
       if (!data.ok) {
         dispatch({ type: 'RESET' })
         addressField.current.focus()
@@ -147,7 +144,6 @@ FormAddress.propTypes = {
 }
 
 const reducer = (state, action) => {
-  console.log('action:', action)
   if (action.type === 'UPDATE_FULL_ADDRESS') {
     return {
       ...state,
