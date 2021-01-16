@@ -14,9 +14,31 @@ import OrderInfo from './order-info'
 import { Link } from 'react-router-dom'
 import { CHECKOUT_SUCCESS } from 'routes'
 
+import firebase, { db } from 'services/firebase'
+
 const CheckoutConfirmation = () => {
   const { userInfo } = useAuth()
   const { order } = useOrder()
+
+  async function sendOrder() {
+    console.log('send order')
+    try {
+      await db.collection('orders').add({
+        userId: userInfo.user.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        address: order.address,
+        phone: order.phone,
+        pizzas: order.pizzas.map((pizza) => ({
+          size: pizza.pizzaSize,
+          flavours: pizza.pizzaFlavours,
+          quantity: pizza.quantity
+        }))
+      })
+    } catch (error) {
+      console.log('error ao salvar pedido', error)
+    }
+  }
+
   const showUserName = userInfo.user.displayName.split(' ')[0]
 
   return (
@@ -60,6 +82,7 @@ const CheckoutConfirmation = () => {
           size="large"
           component={Link}
           to={CHECKOUT_SUCCESS}
+          onClick={() => sendOrder()}
         >
           confirm
         </Button>
