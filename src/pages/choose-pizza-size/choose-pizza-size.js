@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Typography, Card } from '@material-ui/core'
 import styled from 'styled-components'
-import { useAuth } from 'hooks'
-import pizzaSizes from 'contents/pizzas-sizes'
+import { useAuth, useCollection } from 'hooks'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 import {
@@ -18,6 +17,24 @@ import { singularOrPlural } from 'utils'
 
 const ChoosePizzaSize = () => {
   const { userInfo } = useAuth()
+  const pizzasSizes = useCollection('pizzasSizes')
+
+  // useEffect(() => {
+  //   db.collection('pizzasSizes')
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       let sizes = []
+
+  //       querySnapshot.forEach((doc) => {
+  //         sizes.push({
+  //           id: doc.id,
+  //           ...doc.data()
+  //         })
+  //       })
+  //       setPizzasSizes(sizes)
+  //     })
+  // }, [])
+
   const showUserName = userInfo.user.displayName.split(' ')[0]
 
   return (
@@ -28,7 +45,7 @@ const ChoosePizzaSize = () => {
       </HeaderContent>
 
       <PizzasGrid>
-        {pizzaSizes.map((pizza) => (
+        {pizzasSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
             <Card>
               <CardLink
