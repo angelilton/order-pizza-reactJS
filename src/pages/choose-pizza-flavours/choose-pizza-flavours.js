@@ -11,15 +11,15 @@ import {
   Wrapper,
   Footer
 } from 'ui'
-import { Card as MaterialCard, Grid, Typography } from '@material-ui/core'
 import { singularOrPlural, toEuro } from 'utils'
 import { Redirect } from 'react-router-dom'
 import { CHOOSE_QUANTITY, HOME } from 'routes'
-import { useCollection } from 'hooks'
+
+import pizzasFlavours from 'contents/pizza-flavours'
+import { Card as MaterialCard, Grid, Typography } from '@material-ui/core'
 
 const ChoosePizzaFlavours = ({ location }) => {
   const [checkboxes, setCheckboxes] = useState({})
-  const pizzasFlavours = useCollection('pizzasFlavours')
 
   if (!location.state) {
     return <Redirect to={HOME} />
@@ -39,6 +39,7 @@ const ChoosePizzaFlavours = ({ location }) => {
       [value]: checked
     })
   }
+  console.log('checkBoxes', checkboxes)
 
   return (
     <>
@@ -87,7 +88,7 @@ const ChoosePizzaFlavours = ({ location }) => {
               pathname: CHOOSE_QUANTITY,
               state: {
                 ...location.state,
-                pizzaFlavours: getFlavoursNameAndId(checkboxes, pizzasFlavours)
+                pizzaFlavours: getFlavoursNameAndId(checkboxes)
               }
             },
             children: 'How many Pizza?',
@@ -108,16 +109,13 @@ function checkboxesChecked(checkboxes) {
   // filter((c) => (c === true))
 }
 
-function getFlavoursNameAndId(objChecked, pizzasFlavours) {
-  return (
-    Object.entries(objChecked)
-      // eslint-disable-next-line no-unused-vars
-      .filter(([id, value]) => Boolean(value))
-      .map(([id]) => ({
-        id,
-        name: pizzasFlavours.find((flavour) => flavour.id === id).name
-      }))
-  )
+function getFlavoursNameAndId(objChecked) {
+  return Object.entries(objChecked)
+    .filter(([id, value]) => Boolean(value))
+    .map(([id]) => ({
+      id,
+      name: pizzasFlavours.find((flavour) => flavour.id === id).name
+    }))
 }
 
 const Card = styled(MaterialCard)`
