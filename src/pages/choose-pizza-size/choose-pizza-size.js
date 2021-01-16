@@ -17,7 +17,6 @@ import { singularOrPlural } from 'utils'
 const ChoosePizzaSize = () => {
   const { userInfo } = useAuth()
   const pizzasSizes = useCollection('pizzasSizes')
-  console.log(pizzasSizes.length)
 
   if (pizzasSizes.length === 0) {
     return 'loading...'
